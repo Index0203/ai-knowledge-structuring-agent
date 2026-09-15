@@ -31,6 +31,5 @@ htmlcov/
 
 # Runtime data
 data/
-uploads/
 backend/data/
 *.log
