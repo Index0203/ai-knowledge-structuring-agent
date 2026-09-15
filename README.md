@@ -42,6 +42,9 @@ flowchart TD
 
 ## Quick Start
 
+第一次使用请看 [docs/LOCAL_INSTALL.md](docs/LOCAL_INSTALL.md)：从安装 Docker 到上传第一份文档的完整步骤，
+以及网络、端口、执行策略等常见问题的处理办法。
+
 1. Copy the environment template.
 
    ```powershell
