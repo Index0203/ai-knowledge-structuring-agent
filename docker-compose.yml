@@ -3,6 +3,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      target: dev
     command:
       - pnpm
       - run
@@ -26,6 +27,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      target: dev
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     env_file: .env
     ports:
@@ -47,6 +49,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      target: dev
     command: celery -A app.workers.celery_app worker --loglevel=INFO
     env_file: .env
     volumes:
@@ -60,6 +63,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      target: dev
     command: celery -A app.workers.celery_app beat --loglevel=INFO
     env_file: .env
     volumes:

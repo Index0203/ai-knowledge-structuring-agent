@@ -1,0 +1,19 @@
+# Never copy host build output into the image: the container installs its own
+# dependencies, and Windows binaries would shadow them.
+node_modules/
+.pnpm-store/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# Local files
+.env
+.env.*
+.git/
+.gitignore
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

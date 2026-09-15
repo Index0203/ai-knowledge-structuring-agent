@@ -28,9 +28,10 @@ flowchart TD
 ├── frontend/                 # Next.js application
 ├── backend/                  # FastAPI application and workers
 ├── infra/                    # Docker and service configuration
-├── scripts/                  # Local start/stop helpers
+├── scripts/                  # Local start/stop and deployment helpers
 ├── docs/                     # ADRs and architecture documentation
-└── docker-compose.yml        # Local multi-service environment
+├── docker-compose.yml        # Local development environment (bind mounts, hot reload)
+└── docker-compose.prod.yml   # Production stack (built images, migrations, health checks)
 ```
 
 ## Prerequisites
@@ -60,6 +61,33 @@ flowchart TD
    ```powershell
    .\scripts\stop.ps1
    ```
+
+## Production Deployment
+
+The production stack builds both images from source (no bind mounts), runs the
+database migrations before the API starts, and keeps every dependency on the
+internal network. One command builds and starts it:
+
+```powershell
+.\scripts\deploy.ps1          # Windows
+```
+
+```sh
+sh scripts/deploy.sh          # macOS / Linux
+```
+
+Or by hand:
+
+```sh
+cp .env.example .env
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+The web app is then on `http://localhost:3000` and the API docs on
+`http://localhost:8000/docs`. Host ports, credentials, CORS origins and the
+address baked into the web bundle are all driven by `.env`; see
+[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the variable reference, the
+pre-launch checklist and the operations commands.
 
 ## Services
 
