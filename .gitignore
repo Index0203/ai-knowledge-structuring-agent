@@ -1,0 +1,36 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+.next/
+out/
+coverage/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Tooling and OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.pnpm-store/
+*.egg-info/
+*.tsbuildinfo
+.coverage
+htmlcov/
+
+# Runtime data
+data/
+uploads/
+backend/data/
+*.log

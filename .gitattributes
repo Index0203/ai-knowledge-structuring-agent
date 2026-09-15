@@ -1,0 +1,8 @@
+# Keep the repository in LF so the Docker-based toolchain behaves the same on
+# every machine; Windows-only scripts keep CRLF.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.jpg binary
+*.docx binary
+*.pdf binary

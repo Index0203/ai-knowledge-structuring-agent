@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply text-slate-900 antialiased; background-color: #faf8fc; }
+}
+
+/*
+ * Theme palette. The workspace overrides these per theme (see themes.ts); the
+ * values here are the default so components keep working outside that wrapper.
+ */
+:root {
+  --brand-1: #833ab4;
+  --brand-2: #c13584;
+  --brand-3: #e1306c;
+  --brand-4: #f77737;
+  --brand-5: #fcaf45;
+  --brand-ink: #833ab4;
+  --brand-soft: #fbf3ff;
+  --brand-soft-2: #ffeff6;
+  --brand-line: #efe1f5;
+  --brand-ring: rgba(225, 48, 108, 0.22);
+  --brand-ring-soft: rgba(225, 48, 108, 0.35);
+  --brand-shadow: rgba(131, 58, 180, 0.45);
+  --brand-shadow-strong: rgba(225, 48, 108, 0.6);
+  --brand-dots: #e7d7f3;
+  --brand-edge: #cfa8e4;
+  --brand-page: linear-gradient(135deg, #fff5fa 0%, #f8f3ff 48%, #fff8ef 100%);
+}
+
+/*
+ * React Flow paints a hand cursor (`grab`) over the empty canvas and switches to
+ * `grabbing` while panning. Some Windows cursor themes have no glyph for those
+ * cursors, so the pointer disappears over the dotted background and the user
+ * loses track of the mouse. Keep the standard arrow and use the move cursor
+ * while a pan is actually in progress; both exist in every cursor theme.
+ * Written outside `@layer` so it also beats the unlayered React Flow stylesheet.
+ */
+.knowledge-map .react-flow .react-flow__pane,
+.knowledge-map .react-flow .react-flow__pane.draggable {
+  cursor: default;
+}
+
+.knowledge-map .react-flow .react-flow__pane.dragging {
+  cursor: move;
+}
+
+/*
+ * Nodes can be dragged onto another branch, and React Flow would paint the same
+ * `grab` cursor there. Use the move cursor instead so the pointer stays visible.
+ */
+.knowledge-map .react-flow .react-flow__node.draggable,
+.knowledge-map .react-flow .react-flow__node.dragging {
+  cursor: move;
+}
