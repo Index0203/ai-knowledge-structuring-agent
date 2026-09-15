@@ -72,6 +72,9 @@ internal network. One command builds and starts it:
 .\scripts\deploy.ps1          # Windows
 ```
 
+Windows may block unsigned scripts; `scripts\deploy.cmd` wraps the same command
+with `-ExecutionPolicy Bypass` if you prefer double-clicking it.
+
 ```sh
 sh scripts/deploy.sh          # macOS / Linux
 ```

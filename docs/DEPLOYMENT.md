@@ -17,6 +17,10 @@ does, and what to change before other people use it.
 .\scripts\deploy.ps1          # Windows
 ```
 
+If Windows blocks the script ("running scripts is disabled on this system"),
+either double-click `scripts\deploy.cmd` or run
+`powershell -ExecutionPolicy Bypass -File scripts\deploy.ps1`.
+
 ```sh
 sh scripts/deploy.sh          # macOS / Linux
 ```
