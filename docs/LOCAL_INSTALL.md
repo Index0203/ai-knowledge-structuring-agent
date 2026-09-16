@@ -147,9 +147,12 @@ docker compose -f docker-compose.prod.yml exec -T postgres pg_dump -U app knowle
 
 步骤：
 
-1. 在运行项目的这台机器上查出局域网 IP：`ipconfig`，找到"无线局域网适配器 WLAN"下的 IPv4 地址（例如 `192.168.1.10`）。
-2. 把链接发出去：`http://192.168.1.10:3000`。
+1. 在运行项目的这台机器上执行 `powershell -ExecutionPolicy Bypass -File scripts\link.ps1`
+   （macOS/Linux 用 `sh scripts/link.sh`），它会直接打印"自己访问"和"分享给同一 WiFi"两条链接，并检查服务是否在运行。
+2. 把"分享"那条发出去，例如 `http://192.168.1.10:3000`。
 3. 对方在浏览器打开即可使用（建议用 Chrome / Edge）。
+
+也可以手动查询地址：执行 `ipconfig`，找到"无线局域网适配器 WLAN"下的 IPv4 地址，再拼成 `http://<该地址>:3000`。
 
 如果对方打不开，按顺序排查：
 
@@ -157,7 +160,7 @@ docker compose -f docker-compose.prod.yml exec -T postgres pg_dump -U app knowle
 | --- | --- |
 | 一直转圈、打不开 | 两台设备不在同一 WiFi；或该 WiFi 开启了"客户端隔离"（校园网、酒店网络常见），改用手机热点重试 |
 | 页面能开但上传/提问失败 | 让对方先访问 `http://<你的IP>:8000/health`，能看到 `{"status":"ok"}` 说明网络通；若不通就是网络隔离问题 |
-| 换了 WiFi 后对方打不开 | IP 变了，重新用 `ipconfig` 查一次新 IP，把新链接发出去即可（不需要改配置） |
+| 换了 WiFi 后对方打不开 | IP 变了，重新运行 `scripts\link.ps1` 拿到新链接发出去即可（不需要改配置） |
 
 > ⚠️ 注意：接口目前**没有鉴权**，同一个网络里的人打开链接就能看到数据库里的全部文档，也能上传和删除。
 > 只适合局域网内给同学/同事演示，不要把它直接暴露到公网。

@@ -95,6 +95,10 @@ address baked into the web bundle are all driven by `.env`; see
 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the variable reference, the
 pre-launch checklist and the operations commands.
 
+To hand the running app to someone on the same WiFi, run `.\scripts\link.ps1`
+(macOS/Linux: `sh scripts/link.sh`). It prints the address to send, the
+localhost one to keep, and whether the stack is actually up.
+
 ## Services
 
 | Service | Port | Purpose |
