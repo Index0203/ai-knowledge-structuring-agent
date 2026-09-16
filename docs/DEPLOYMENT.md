@@ -71,8 +71,8 @@ Copy `.env.example` to `.env` and edit what you need. The file is ignored by git
 | Variable | Purpose | Default |
 | --- | --- | --- |
 | `APP_ENV` | Environment name reported by the app | `development` |
-| `NEXT_PUBLIC_API_BASE_URL` | API address used by the browser. It is inlined when the frontend image is built, so changing it requires rebuilding that image | `http://localhost:8000` |
-| `BACKEND_CORS_ORIGINS` | Comma-separated origins allowed to call the API | `http://localhost:3000` |
+| `NEXT_PUBLIC_API_BASE_URL` | API address used by the browser. It is inlined when the frontend image is built. When it points at localhost (the default) and the page is opened from another address — a LAN IP, for example — the browser talks to the API on that same host instead, so a shared link works without a rebuild | `http://localhost:8000` |
+| `BACKEND_CORS_ORIGINS` | Comma-separated origins allowed to call the API. Private-network origins (`localhost`, `10.x`, `192.168.x`, `172.16-31.x`) are always accepted, so a link shared inside the LAN needs no change | `http://localhost:3000` |
 | `BACKEND_PORT` / `FRONTEND_PORT` | Host ports for the API and the web app | `8000` / `3000` |
 | `UVICORN_WORKERS` | API worker processes in the production image | `2` |
 | `POSTGRES_DB` / `POSTGRES_USER` / `POSTGRES_PASSWORD` | Database credentials. Changing the password also requires updating `DATABASE_URL` | `knowledge_agent` / `app` / `app` |
@@ -88,7 +88,7 @@ Copy `.env.example` to `.env` and edit what you need. The file is ignored by git
 - [ ] Change `POSTGRES_PASSWORD` **and** the matching password inside `DATABASE_URL`
 - [ ] Change `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD`
 - [ ] Point `BACKEND_CORS_ORIGINS` at the real web origin
-- [ ] Point `NEXT_PUBLIC_API_BASE_URL` at the address browsers will use, then rebuild the frontend image
+- [ ] Point `NEXT_PUBLIC_API_BASE_URL` at the address browsers will use, then rebuild the frontend image (only needed when the API is not on the same host as the page; a LAN link works as-is)
 - [ ] Provide a model key, or confirm the degraded mode is acceptable
 - [ ] Keep PostgreSQL, Redis, ChromaDB and MinIO off the public network
 - [ ] Schedule backups of the named volumes
@@ -122,6 +122,6 @@ cat backup.sql | docker compose -f docker-compose.prod.yml exec -T postgres psql
 | --- | --- |
 | A port is already in use | Change `BACKEND_PORT` / `FRONTEND_PORT` in `.env`, or stop whatever holds the port |
 | The API never becomes healthy | `docker compose -f docker-compose.prod.yml logs migrate backend` — usually a credential mismatch between `POSTGRES_*` and `DATABASE_URL` |
-| The page loads but requests fail | `NEXT_PUBLIC_API_BASE_URL` must be reachable from the browser (it is baked in at build time), and `BACKEND_CORS_ORIGINS` must include the web origin |
+| The page loads but requests fail | Check `http://<host>:8000/health` from the browser. Private-network origins are allowed automatically; a public web origin has to be added to `BACKEND_CORS_ORIGINS`, and `NEXT_PUBLIC_API_BASE_URL` must be reachable from the browser (it is baked in at build time) |
 | Model calls fail | Verify `OPENAI_API_KEY`, `OPENAI_MODEL` and `OPENAI_BASE_URL`; the stack still runs without them in degraded mode |
 | Documents stay in "processing" | `docker compose -f docker-compose.prod.yml logs worker beat` |
